@@ -1,0 +1,541 @@
+table _Measures
+	lineageTag: 971e5c8f-d6fd-4eef-9e17-43228997e2e3
+
+	measure 'Average Discount' = AVERAGE('Fact_Sales'[Discount])
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 01_KPIs
+		lineageTag: ffeb3a58-802c-4095-8865-6513a01efb6c
+
+	measure 'Average Order Value' = DIVIDE(SUM('Fact_Sales'[Revenue]), DISTINCTCOUNT('Fact_Sales'[Order ID]), 0)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: 01_KPIs
+		lineageTag: 43c955e9-92e0-4ee6-8d6a-008301524b6b
+
+	measure 'Avg Basket Size' = AVERAGE(Fact_Sales[Quantity])
+		formatString: 0.0
+		displayFolder: 01_KPIs
+		lineageTag: e3ff3180-21d0-4153-ae39-9458f79e16a7
+
+	measure 'Avg Delivery Days' = AVERAGE(Fact_Sales[Delivery Days])
+		formatString: 0.0
+		displayFolder: 01_KPIs
+		lineageTag: 6a6d93dd-2081-4c9b-8056-3a8f6566c722
+
+	measure 'Profit Margin' = DIVIDE(SUM('Fact_Sales'[Gross Profit]), SUM('Fact_Sales'[Revenue]), 0)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 01_KPIs
+		lineageTag: d8ad22c4-ef94-47ea-ae0a-e412c8cae68b
+
+	measure 'Data Period Label' = ```
+			
+			"Data period: " & 
+			FORMAT(MIN('Fact_Sales'[Order Date]), "MMM YYYY") & 
+			" - " & 
+			FORMAT(MAX('Fact_Sales'[Order Date]), "MMM YYYY")
+			```
+		displayFolder: 03_Formatting & Colors
+		lineageTag: 8d62cac5-30e5-4d7f-9d32-bd60f662b48f
+
+	measure 'Prepayment Share' =
+			
+			VAR CardRev = CALCULATE([Total Revenue], Dim_Payment[Payment Method] = "Card")
+			VAR WalletRev = CALCULATE([Total Revenue], Dim_Payment[Payment Method] = "Wallet")
+			RETURN
+			FORMAT(DIVIDE(CardRev + WalletRev, [Total Revenue]), "0.0%", "en-US")
+		displayFolder: 01_KPIs
+		lineageTag: 028afd30-8ebc-4b02-b608-9c9cbdc5e2b0
+
+	measure 'Revenue PY' =
+			
+			CALCULATE(
+			    [Total Revenue],
+			    SAMEPERIODLASTYEAR('Dim_Calendar'[Date])
+			)
+		displayFolder: 02_YoY Logic
+		lineageTag: 56d98f3b-19e7-44f4-8210-28dbd9658db5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue YoY %' =
+			
+			VAR CurrentRev = [Total Revenue]
+			VAR PreviousRev = [Revenue PY] -- или CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(Dim_Calendar[Date]))
+			RETURN
+			DIVIDE(CurrentRev - PreviousRev, PreviousRev, BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 02_YoY Logic
+		lineageTag: 528fe0d0-3040-4d6c-a85a-68ff1ef8b9ec
+
+	measure 'Revenue YoY Formatted' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE('Dim_Calendar'[Year])
+			VAR MaxSalesDate = MAX('Fact_Sales'[Order Date])
+			
+			VAR CurrentYearRev = 
+			    IF(
+			        ISFILTERED('Dim_Calendar'[Year]),
+			        [Total Revenue],
+			        CALCULATE([Total Revenue], 'Dim_Calendar'[Year] = YEAR(MaxSalesDate))
+			    )
+			
+			VAR PreviousYearRev = 
+			    IF(
+			        ISFILTERED('Dim_Calendar'[Year]),
+			        CALCULATE([Total Revenue], SAMEPERIODLASTYEAR('Dim_Calendar'[Date])),
+			        CALCULATE([Total Revenue], 'Dim_Calendar'[Year] = YEAR(MaxSalesDate) - 1)
+			    )
+			
+			VAR YoY = DIVIDE(CurrentYearRev - PreviousYearRev, PreviousYearRev, BLANK())
+			VAR YearLabel = IF(NOT ISFILTERED('Dim_Calendar'[Year]), " (" & YEAR(MaxSalesDate) & " vs " & (YEAR(MaxSalesDate) - 1) & ")", " YoY")
+			
+			RETURN
+			IF(
+			    ISBLANK(YoY),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        ABS(YoY) < 0.0005, "► 0.0%" & YearLabel,
+			        YoY > 0, "▲ " & FORMAT(YoY, "0.0%", "en-US") & YearLabel,
+			        "▼ " & FORMAT(ABS(YoY), "0.0%", "en-US") & YearLabel
+			    )
+			)
+			```
+		displayFolder: 02_YoY Logic
+		lineageTag: f8e15152-46ea-4efe-a113-ef16bd4e43c6
+
+	measure 'Top Category Name' =
+			
+			SELECTCOLUMNS(
+			    TOPN(1, VALUES(Dim_Category[Product Category]), [Total Revenue], DESC),
+			    "Category", Dim_Category[Product Category]
+			)
+		displayFolder: 03_Formatting & Colors
+		lineageTag: 09442df5-cb9f-462a-b8a1-d9ede1c728f6
+
+	measure 'Top Category Revenue K' =
+			
+			VAR TopCat = TOPN(1, VALUES(Dim_Category[Product Category]), [Total Revenue], DESC)
+			VAR TopCatRev = CALCULATE([Total Revenue], Dim_Category[Product Category] = TopCat)
+			RETURN
+			FORMAT(TopCatRev / 1000, "$#,##0.0", "en-US") & "K"
+		displayFolder: 03_Formatting & Colors
+		lineageTag: 93c964f0-77fd-4d29-9d64-dea84b097a95
+
+	measure 'Total Gross Profit' = SUM(Fact_Sales[Gross Profit])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: 01_KPIs
+		lineageTag: d8030c09-3c42-4990-828f-03ee2edddfe5
+
+	measure 'Total Revenue' = SUM(Fact_Sales[Revenue])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: 01_KPIs
+		lineageTag: 75d4cc3f-cfc9-4eb3-bffb-87a1237aa895
+
+	measure 'Total Revenue (Full Years)' =
+			
+			CALCULATE(
+			    [Total Revenue],
+			    Dim_Calendar[Year] < 2025
+			)
+		displayFolder: 01_KPIs
+		lineageTag: 0dc58dd4-851b-4c6b-95b4-62284d876802
+
+	measure 'Total Units Sold' = SUM(Fact_Sales[Quantity])
+		formatString: 0
+		displayFolder: 01_KPIs
+		lineageTag: 69e53243-c12a-4855-a46f-af2f7407819d
+
+	measure 'Total Revenue Formatted' =
+			
+			VAR Rev = [Total Revenue]
+			RETURN
+			IF(
+			    Rev >= 1000000,
+			    FORMAT(Rev / 1000000, "$#,##0.0", "en-US") & "M",
+			    FORMAT(Rev / 1000, "$#,##0.0", "en-US") & "K"
+			)
+		displayFolder: 03_Formatting & Colors
+		lineageTag: f626056f-624a-4dc8-93f3-52167ef7e0c1
+
+	measure 'Total Unique Customers' = DISTINCTCOUNT(Fact_Sales[Customer ID])
+		formatString: 0
+		displayFolder: 01_KPIs
+		lineageTag: 28421b28-9f8f-48d8-9769-23e7cb3a88c1
+
+	measure 'Total Orders' = DISTINCTCOUNT('Fact_Sales'[Order ID])
+		formatString: #,0
+		displayFolder: 01_KPIs
+		lineageTag: 727f5b61-6348-43f5-8b47-140d2994d979
+
+	measure 'Category Color Accent' = ```
+			
+			VAR MaxRevenueInContext = 
+			    CALCULATE(
+			        MAXX(
+			            VALUES('Dim_Category'[Product Category]), 
+			            [Total Revenue]
+			        ), 
+			        ALLSELECTED('Dim_Category')
+			    )
+			VAR CurrentCategoryRevenue = [Total Revenue]
+			RETURN 
+			    IF(
+			        CurrentCategoryRevenue = MaxRevenueInContext, 
+			        "#008080",
+			        "#314F62"
+			    )
+			```
+		displayFolder: 03_Formatting & Colors
+		lineageTag: 43ec2d79-64b1-4ab0-b2ea-ad8ab62397e1
+
+	measure 'Profit YoY Formatted' =
+			
+			VAR SelectedYear = SELECTEDVALUE('Dim_Calendar'[Year])
+			VAR MaxSalesYear = YEAR(CALCULATE(MAX('Fact_Sales'[Order Date]), ALLSELECTED('Fact_Sales')))
+			VAR TargetYear = COALESCE(SelectedYear, MaxSalesYear)
+			
+			VAR CurrentProfit = CALCULATE([Total Gross Profit], 'Dim_Calendar'[Year] = TargetYear)
+			VAR PreviousProfit = CALCULATE([Total Gross Profit], 'Dim_Calendar'[Year] = TargetYear - 1)
+			
+			VAR YoY = DIVIDE(CurrentProfit - PreviousProfit, PreviousProfit, BLANK())
+			VAR YearLabel = IF(ISBLANK(SelectedYear), " (" & TargetYear & " vs " & (TargetYear - 1) & ")", " YoY")
+			
+			RETURN
+			IF(
+			    ISBLANK(YoY),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        ABS(YoY) < 0.0005, "► 0.0%" & YearLabel,
+			        YoY > 0, "▲ " & FORMAT(YoY, "0.0%", "en-US") & YearLabel,
+			        "▼ " & FORMAT(ABS(YoY), "0.0%", "en-US") & YearLabel
+			    )
+			)
+		displayFolder: 02_YoY Logic
+		lineageTag: 62ad4b73-d6ee-4705-b89c-b87909bad825
+
+	measure 'Orders YoY Formatted' =
+			
+			VAR SelectedYear = SELECTEDVALUE('Dim_Calendar'[Year])
+			VAR MaxSalesYear = YEAR(CALCULATE(MAX('Fact_Sales'[Order Date]), ALLSELECTED('Fact_Sales')))
+			VAR TargetYear = COALESCE(SelectedYear, MaxSalesYear)
+			
+			VAR CurrentOrders = CALCULATE([Total Orders], 'Dim_Calendar'[Year] = TargetYear)
+			VAR PreviousOrders = CALCULATE([Total Orders], 'Dim_Calendar'[Year] = TargetYear - 1)
+			
+			VAR YoY = DIVIDE(CurrentOrders - PreviousOrders, PreviousOrders, BLANK())
+			VAR YearLabel = IF(ISBLANK(SelectedYear), " (" & TargetYear & " vs " & (TargetYear - 1) & ")", " YoY")
+			
+			RETURN
+			IF(
+			    ISBLANK(YoY),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        ABS(YoY) < 0.0005, "► 0.0%" & YearLabel,
+			        YoY > 0, "▲ " & FORMAT(YoY, "0.0%", "en-US") & YearLabel,
+			        "▼ " & FORMAT(YoY, "0.0%", "en-US") & YearLabel
+			    )
+			)
+		displayFolder: 02_YoY Logic
+		lineageTag: 2f56fba4-a083-4a74-9526-5c2c83b80cd1
+
+	measure 'Revenue YoY Color' =
+			
+			VAR YoYText = [Revenue YoY Formatted]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        CONTAINSSTRING(YoYText, "►"), "#6B7280",
+			        CONTAINSSTRING(YoYText, "▲"), "#2CCE2C",
+			        CONTAINSSTRING(YoYText, "▼"), "#E63946",
+			        "#6B7280"
+			    )
+		displayFolder: 03_Formatting & Colors
+		lineageTag: 52fdb76e-0d00-4dbc-8b6d-ef816a3ed1bb
+
+	measure 'Profit YoY Color' =
+			
+			VAR YoYText = [Profit YoY Formatted]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        CONTAINSSTRING(YoYText, "►"), "#6B7280",
+			        CONTAINSSTRING(YoYText, "▲"), "#2CCE2C",
+			        CONTAINSSTRING(YoYText, "▼"), "#E63946",
+			        "#6B7280"
+			    )
+		displayFolder: 03_Formatting & Colors
+		lineageTag: 08d9f52b-a58d-4ccf-84d3-a0ec5df0d19f
+
+	measure 'Orders YoY Color' =
+			
+			VAR YoYText = [Orders YoY Formatted]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        CONTAINSSTRING(YoYText, "►"), "#6B7280",
+			        CONTAINSSTRING(YoYText, "▲"), "#2CCE2C",
+			        CONTAINSSTRING(YoYText, "▼"), "#E63946",
+			        "#6B7280"
+			    )
+		displayFolder: 03_Formatting & Colors
+		lineageTag: 832e0571-0eb2-4eab-834f-72524874d6a0
+
+	measure 'Rating YoY Formatted' =
+			
+			VAR SelectedYear = SELECTEDVALUE('Dim_Calendar'[Year])
+			VAR MaxSalesYear = YEAR(CALCULATE(MAX('Fact_Sales'[Order Date]), ALLSELECTED('Fact_Sales')))
+			VAR TargetYear = COALESCE(SelectedYear, MaxSalesYear)
+			
+			VAR CurrentRating = CALCULATE(AVERAGE('Fact_Sales'[Customer Rating]), 'Dim_Calendar'[Year] = TargetYear)
+			VAR PreviousRating = CALCULATE(AVERAGE('Fact_Sales'[Customer Rating]), 'Dim_Calendar'[Year] = TargetYear - 1)
+			
+			VAR Diff = CurrentRating - PreviousRating
+			VAR YearLabel = IF(ISBLANK(SelectedYear), " (" & TargetYear & " vs " & (TargetYear - 1) & ")", " vs PY")
+			
+			RETURN
+			IF(
+			    ISBLANK(Diff),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        ABS(Diff) < 0.05, "► 0.0" & YearLabel,
+			        Diff > 0, "▲ " & FORMAT(Diff, "0.0", "en-US") & YearLabel,
+			        "▼ " & FORMAT(ABS(Diff), "0.0", "en-US") & YearLabel
+			    )
+			)
+		displayFolder: 02_YoY Logic
+		lineageTag: 270bec58-bc5f-4eab-aa36-07c737ebfab8
+
+	measure 'Delivery YoY Formatted' =
+			
+			VAR SelectedYear = SELECTEDVALUE('Dim_Calendar'[Year])
+			VAR MaxSalesYear = YEAR(CALCULATE(MAX('Fact_Sales'[Order Date]), ALLSELECTED('Fact_Sales')))
+			VAR TargetYear = COALESCE(SelectedYear, MaxSalesYear)
+			
+			VAR CurrentDays = CALCULATE(AVERAGE('Fact_Sales'[Delivery Days]), 'Dim_Calendar'[Year] = TargetYear)
+			VAR PreviousDays = CALCULATE(AVERAGE('Fact_Sales'[Delivery Days]), 'Dim_Calendar'[Year] = TargetYear - 1)
+			
+			VAR Diff = CurrentDays - PreviousDays
+			VAR YearLabel = IF(ISBLANK(SelectedYear), " (" & TargetYear & " vs " & (TargetYear - 1) & ")", " vs PY")
+			
+			RETURN
+			IF(
+			    ISBLANK(Diff),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        ABS(Diff) < 0.05, "► 0.0 days" & YearLabel,
+			        Diff < 0, "▼ " & FORMAT(ABS(Diff), "0.0", "en-US") & " days" & YearLabel,
+			        "▲ " & FORMAT(ABS(Diff), "0.0", "en-US") & " days" & YearLabel
+			    )
+			)
+		displayFolder: 02_YoY Logic
+		lineageTag: b85cea2b-d121-477d-bdbd-3bde1710910d
+
+	measure 'Rating YoY Color' =
+			
+			VAR YoYText = [Rating YoY Formatted]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        CONTAINSSTRING(YoYText, "►"), "#6B7280",
+			        CONTAINSSTRING(YoYText, "▲"), "#2CCE2C",
+			        CONTAINSSTRING(YoYText, "▼"), "#E63946",
+			        "#6B7280"
+			    )
+		displayFolder: 03_Formatting & Colors
+		lineageTag: c4afbade-02a9-461f-bceb-ed31d6b93f8c
+
+	measure 'Delivery YoY Color' =
+			
+			VAR YoYText = [Delivery YoY Formatted]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        CONTAINSSTRING(YoYText, "►"), "#6B7280",
+			        CONTAINSSTRING(YoYText, "▲"), "#E63946",
+			        CONTAINSSTRING(YoYText, "▼"), "#2CCE2C",
+			        "#6B7280"
+			    )
+		displayFolder: 03_Formatting & Colors
+		lineageTag: 0be8d494-6a7e-4578-8b81-bef1db14e5ab
+
+	measure 'Dynamic Y Max' = ```
+			
+			VAR SelectedOrder = MAX('Date Granularity'[Date Granularity Order])
+			
+			VAR MaxUnits = 
+			    SWITCH(
+			        SelectedOrder,
+			        2, MAXX(SUMMARIZE('Fact_Sales', 'Dim_Category'[Product Category], 'Dim_Calendar'[Year Month]), [Total Units Sold]),
+			        1, MAXX(SUMMARIZE('Fact_Sales', 'Dim_Category'[Product Category], 'Dim_Calendar'[Year Quarter]), [Total Units Sold]),
+			        0, MAXX(SUMMARIZE('Fact_Sales', 'Dim_Category'[Product Category], 'Dim_Calendar'[Year]), [Total Units Sold]),
+			        MAXX(SUMMARIZE('Fact_Sales', 'Dim_Category'[Product Category], 'Dim_Calendar'[Year Quarter]), [Total Units Sold])
+			    )
+			
+			RETURN MaxUnits * 1.15
+			```
+		displayFolder: 04_Dynamic Axes
+		lineageTag: fece9f09-55ad-4394-87e1-3169aacdb3c7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Dynamic Y Min' = 0
+		displayFolder: 04_Dynamic Axes
+		lineageTag: baa18da7-e952-42c1-a34b-87bc6567d588
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'AOV YoY Formatted' =
+			
+			VAR SelectedYear = SELECTEDVALUE('Dim_Calendar'[Year])
+			VAR MaxSalesYear = YEAR(CALCULATE(MAX('Fact_Sales'[Order Date]), ALLSELECTED('Fact_Sales')))
+			VAR TargetYear = COALESCE(SelectedYear, MaxSalesYear)
+			
+			VAR CurrentAOV = CALCULATE([Average Order Value], 'Dim_Calendar'[Year] = TargetYear)
+			VAR PreviousAOV = CALCULATE([Average Order Value], 'Dim_Calendar'[Year] = TargetYear - 1)
+			
+			VAR YoY = DIVIDE(CurrentAOV - PreviousAOV, PreviousAOV, BLANK())
+			VAR YearLabel = IF(ISBLANK(SelectedYear), " (" & TargetYear & " vs " & (TargetYear - 1) & ")", " YoY")
+			
+			RETURN
+			IF(
+			    ISBLANK(YoY),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        ABS(YoY) < 0.0005, "► 0.0%" & YearLabel,
+			        YoY > 0, "▲ " & FORMAT(YoY, "0.0%", "en-US") & YearLabel,
+			        "▼ " & FORMAT(ABS(YoY), "0.0%", "en-US") & YearLabel
+			    )
+			)
+		displayFolder: 02_YoY Logic
+		lineageTag: 66070d4e-322d-4fae-8803-f2d7ca77ed8b
+
+	measure 'Profit Margin YoY Formatted' =
+			
+			VAR SelectedYear = SELECTEDVALUE('Dim_Calendar'[Year])
+			VAR MaxSalesYear = YEAR(CALCULATE(MAX('Fact_Sales'[Order Date]), ALLSELECTED('Fact_Sales')))
+			VAR TargetYear = COALESCE(SelectedYear, MaxSalesYear)
+			
+			VAR CurrentMargin = CALCULATE([Profit Margin], 'Dim_Calendar'[Year] = TargetYear)
+			VAR PreviousMargin = CALCULATE([Profit Margin], 'Dim_Calendar'[Year] = TargetYear - 1)
+			
+			-- Считаем разницу в процентных пунктах
+			VAR MarginDiff = CurrentMargin - PreviousMargin
+			VAR YearLabel = IF(ISBLANK(SelectedYear), " (" & TargetYear & " vs " & (TargetYear - 1) & ")", " YoY")
+			
+			RETURN
+			IF(
+			    ISBLANK(MarginDiff),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        ABS(MarginDiff) < 0.0005, "► 0.0%" & YearLabel,
+			        MarginDiff > 0, "▲ " & FORMAT(MarginDiff, "0.0%", "en-US") & YearLabel,
+			        "▼ " & FORMAT(ABS(MarginDiff), "0.0%", "en-US") & YearLabel
+			    )
+			)
+		displayFolder: 02_YoY Logic
+		lineageTag: ff772fce-9c6d-4f6b-a899-375ec174d6e2
+
+	measure 'Avg Discount YoY Formatted' =
+			
+			VAR SelectedYear = SELECTEDVALUE('Dim_Calendar'[Year])
+			VAR MaxSalesYear = YEAR(CALCULATE(MAX('Fact_Sales'[Order Date]), ALLSELECTED('Fact_Sales')))
+			VAR TargetYear = COALESCE(SelectedYear, MaxSalesYear)
+			
+			VAR CurrentDiscount = CALCULATE([Average Discount], 'Dim_Calendar'[Year] = TargetYear)
+			VAR PreviousDiscount = CALCULATE([Average Discount], 'Dim_Calendar'[Year] = TargetYear - 1)
+			
+			VAR DiscountDiff = CurrentDiscount - PreviousDiscount
+			VAR YearLabel = IF(ISBLANK(SelectedYear), " (" & TargetYear & " vs " & (TargetYear - 1) & ")", " YoY")
+			
+			RETURN
+			IF(
+			    ISBLANK(DiscountDiff),
+			    "",
+			    SWITCH(
+			        TRUE(),
+			        ABS(DiscountDiff) < 0.0005, "► 0.0%" & YearLabel,
+			        DiscountDiff > 0, "▲ " & FORMAT(DiscountDiff, "0.0%", "en-US") & YearLabel,
+			        "▼ " & FORMAT(ABS(DiscountDiff), "0.0%", "en-US") & YearLabel
+			    )
+			)
+		displayFolder: 02_YoY Logic
+		lineageTag: c4d11340-689e-4c1c-9a22-58f0a1abb3e7
+
+	measure 'AOV YoY Color' =
+			
+			VAR YoYText = [AOV YoY Formatted]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        CONTAINSSTRING(YoYText, "►"), "#6B7280",
+			        CONTAINSSTRING(YoYText, "▲"), "#2CCE2C",
+			        CONTAINSSTRING(YoYText, "▼"), "#E63946",
+			        "#6B7280"
+			    )
+		displayFolder: 03_Formatting & Colors
+		lineageTag: 8a4ca6fd-2a5b-4cff-bd34-7391c839800a
+
+	measure 'Profit Margin YoY Color' =
+			
+			VAR YoYText = [Profit Margin YoY Formatted]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        CONTAINSSTRING(YoYText, "►"), "#6B7280",
+			        CONTAINSSTRING(YoYText, "▲"), "#2CCE2C",
+			        CONTAINSSTRING(YoYText, "▼"), "#E63946",
+			        "#6B7280"
+			    )
+		displayFolder: 03_Formatting & Colors
+		lineageTag: 4462397c-9410-47c9-ae5f-f967a499f285
+
+	measure 'Avg Discount YoY Color' =
+			
+			VAR YoYText = [Avg Discount YoY Formatted]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        CONTAINSSTRING(YoYText, "►"), "#6B7280",
+			        CONTAINSSTRING(YoYText, "▲"), "#2CCE2C",
+			        CONTAINSSTRING(YoYText, "▼"), "#E63946",
+			        "#6B7280"
+			    )
+		displayFolder: 03_Formatting & Colors
+		lineageTag: 145d831a-1c39-4966-a3b0-756b247ebc33
+
+	measure 'Column Color' = ```
+			
+			VAR CurrentVal = [Average Order Value]
+			VAR MaxVal = 
+			    CALCULATE(
+			        MAXX(
+			            ALLSELECTED(Fact_Sales[Discount Group]), 
+			            [Average Order Value]
+			        ),
+			        ALLSELECTED()
+			    )
+			RETURN
+			    IF(CurrentVal = MaxVal, "#009696", "#2E4057")
+			```
+		displayFolder: 03_Formatting & Colors
+		lineageTag: 3d5997f6-e603-4891-a3d4-0eecf56a5f29
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				  Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Removed Columns" = Table.RemoveColumns(Source,{"Column1"})
+				in
+				  #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

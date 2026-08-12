@@ -1,0 +1,16 @@
+relationship c13fa978-4c61-057e-4341-1f2d81458ea9
+	fromColumn: Fact_Sales.'Customer ID'
+	toColumn: Dim_Customer.'Customer ID'
+
+relationship 90f5adc4-8a47-3d2f-bb68-5c00c89db61a
+	fromColumn: Fact_Sales.'Order Date'
+	toColumn: Dim_Calendar.Date
+
+relationship AutoDetected_e080ddfb-ebda-4dd0-a0d1-19824c83c74a
+	fromColumn: Fact_Sales.'Product Category'
+	toColumn: Dim_Category.'Product Category'
+
+relationship AutoDetected_b3f6ea51-7f56-420e-9fa5-772d1f513194
+	fromColumn: Fact_Sales.'Payment Method'
+	toColumn: Dim_Payment.'Payment Method'
+

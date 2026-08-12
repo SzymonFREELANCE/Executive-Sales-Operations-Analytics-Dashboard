@@ -1,0 +1,44 @@
+table Dim_Payment
+	lineageTag: 4098de1c-5cd3-4be2-ac63-0bdf609ce790
+
+	column 'Payment Method'
+		dataType: string
+		lineageTag: 17461d78-a23b-43cd-8c6d-7b064896f349
+		summarizeBy: none
+		sourceColumn: Payment Method
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Payment ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 66677bbf-298a-4d3e-a4c9-8158cffeb8b5
+		summarizeBy: none
+		sourceColumn: Payment ID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Payment = m
+		mode: import
+		source =
+				let
+				  Źródło = Csv.Document(File.Contents("C:\Users\semen\Desktop\PRACA\archive\ecommerce_sales_analytics_5000.csv"), [Delimiter = ",", Columns = 12, QuoteStyle = QuoteStyle.None]),
+				  #"Nagłówki o podwyższonym poziomie" = Table.PromoteHeaders(Źródło, [PromoteAllScalars = true]),
+				    #"Zmieniono typ z ustawieniami regionalnymi" = Table.TransformColumnTypes(#"Nagłówki o podwyższonym poziomie", {{"unit_price", type number}, {"discount", type number}, {"revenue", type number}}, "en-US"),
+				    #"Zmieniono typ z ustawieniami regionalnymi1" = Table.TransformColumnTypes(#"Zmieniono typ z ustawieniami regionalnymi", {{"order_date", type date}}, "en-US"),
+				    #"Zmieniono typ z ustawieniami regionalnymi2" = Table.TransformColumnTypes(#"Zmieniono typ z ustawieniami regionalnymi1", {{"customer_rating", type number}}, "en-US"),
+				    #"Sorted Rows" = Table.Sort(#"Zmieniono typ z ustawieniami regionalnymi2",{{"order_id", Order.Descending}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Sorted Rows",{{"order_id", Int64.Type}}),
+				    #"Inserted Quarter" = Table.AddColumn(#"Changed Type", "Quarter", each Date.QuarterOfYear([order_date]), Int64.Type),
+				    #"Added Custom" = Table.AddColumn(#"Inserted Quarter", "Quarter_Name", each "Q" & Text.From([Quarter])),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Added Custom",{"payment_method"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "Payment ID"}, {"payment_method", "Payment Method"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Nawigacja
+
+	annotation PBI_ResultType = Table
+
