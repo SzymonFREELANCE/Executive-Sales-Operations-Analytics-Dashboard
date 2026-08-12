@@ -106,16 +106,16 @@ table _Measures
 	measure 'Top Category Name' =
 			
 			SELECTCOLUMNS(
-			    TOPN(1, VALUES(Dim_Category[Product Category]), [Total Revenue], DESC),
-			    "Category", Dim_Category[Product Category]
+			    TOPN(1, VALUES(Dim_Category[product_category]), [Total Revenue], DESC),
+			    "Category", Dim_Category[product_category]
 			)
 		displayFolder: 03_Formatting & Colors
 		lineageTag: 09442df5-cb9f-462a-b8a1-d9ede1c728f6
 
 	measure 'Top Category Revenue K' =
 			
-			VAR TopCat = TOPN(1, VALUES(Dim_Category[Product Category]), [Total Revenue], DESC)
-			VAR TopCatRev = CALCULATE([Total Revenue], Dim_Category[Product Category] = TopCat)
+			VAR TopCat = TOPN(1, VALUES(Dim_Category[product_category]), [Total Revenue], DESC)
+			VAR TopCatRev = CALCULATE([Total Revenue], Dim_Category[product_category] = TopCat)
 			RETURN
 			FORMAT(TopCatRev / 1000, "$#,##0.0", "en-US") & "K"
 		displayFolder: 03_Formatting & Colors
@@ -172,7 +172,7 @@ table _Measures
 			VAR MaxRevenueInContext = 
 			    CALCULATE(
 			        MAXX(
-			            VALUES('Dim_Category'[Product Category]), 
+			            VALUES('Dim_Category'[product_category]), 
 			            [Total Revenue]
 			        ), 
 			        ALLSELECTED('Dim_Category')
@@ -369,10 +369,10 @@ table _Measures
 			VAR MaxUnits = 
 			    SWITCH(
 			        SelectedOrder,
-			        2, MAXX(SUMMARIZE('Fact_Sales', 'Dim_Category'[Product Category], 'Dim_Calendar'[Year Month]), [Total Units Sold]),
-			        1, MAXX(SUMMARIZE('Fact_Sales', 'Dim_Category'[Product Category], 'Dim_Calendar'[Year Quarter]), [Total Units Sold]),
-			        0, MAXX(SUMMARIZE('Fact_Sales', 'Dim_Category'[Product Category], 'Dim_Calendar'[Year]), [Total Units Sold]),
-			        MAXX(SUMMARIZE('Fact_Sales', 'Dim_Category'[Product Category], 'Dim_Calendar'[Year Quarter]), [Total Units Sold])
+			        2, MAXX(SUMMARIZE('Fact_Sales', 'Dim_Category'[product_category], 'Dim_Calendar'[Year Month]), [Total Units Sold]),
+			        1, MAXX(SUMMARIZE('Fact_Sales', 'Dim_Category'[product_category], 'Dim_Calendar'[Year Quarter]), [Total Units Sold]),
+			        0, MAXX(SUMMARIZE('Fact_Sales', 'Dim_Category'[product_category], 'Dim_Calendar'[Year]), [Total Units Sold]),
+			        MAXX(SUMMARIZE('Fact_Sales', 'Dim_Category'[product_category], 'Dim_Calendar'[Year Quarter]), [Total Units Sold])
 			    )
 			
 			RETURN MaxUnits * 1.15

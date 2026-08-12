@@ -22,14 +22,15 @@ table Dim_Customer
 		mode: import
 		source =
 				let
-				  Source = Csv.Document(File.Contents("C:\Users\semen\Desktop\PRACA\archive\ecommerce_sales_analytics_5000.csv"), [Delimiter = ",", Columns = 12, QuoteStyle = QuoteStyle.None]),
+				  Source = Csv.Document(File.Contents(DatasetFilePath), [Delimiter=",", Columns=12, QuoteStyle=QuoteStyle.None]),
 				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
 				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"order_id", Int64.Type}, {"order_date", type date}, {"customer_id", Int64.Type}, {"product_category", type text}, {"region", type text}, {"quantity", Int64.Type}, {"unit_price", type number}, {"discount", type number}, {"payment_method", type text}, {"delivery_days", Int64.Type}, {"customer_rating", type number}, {"revenue", type number}}),
 				    #"Removed Other Columns" = Table.SelectColumns(#"Changed column type",{"customer_id", "region"}),
 				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns", {"customer_id"}),
-				    #"Renamed Columns" = Table.RenameColumns(#"Removed Duplicates",{{"customer_id", "Customer ID"}, {"region", "Region"}})
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Duplicates",{{"customer_id", "Customer ID"}, {"region", "Region"}}),
+				    #"Removed Duplicates1" = Table.Distinct(#"Renamed Columns", {"Customer ID"})
 				in
-				  #"Renamed Columns"
+				  #"Removed Duplicates1"
 
 	annotation PBI_NavigationStepName = Navigation
 
