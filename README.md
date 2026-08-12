@@ -14,7 +14,6 @@ An end-to-end, production-ready Power BI analytics solution designed for executi
 
 ## 🔗 Live Demo & Project Assets
 * **Power BI Project File:** [Download .pbix File](pbix/Executive_Sales_Operations_Analytics.pbix)
-* **120-Sec Video Walkthrough:** [Watch Loom Video](INSERT_YOUR_LOOM_URL_HERE)
 * **Author LinkedIn:** [Szymon Khrapachenko](https://www.linkedin.com/in/szymon-khrapachenko)
 
 ---
@@ -77,7 +76,7 @@ The data model follows a clean, single-direction **Star Schema** optimized for m
 
 ![Power BI Data Model](screenshots/06_data_model.png)
 
-Best Practices & Model Governance
+## Best Practices & Model Governance
 
 Zero Implicit Measures: All raw numeric fact fields in Fact_Sales are explicitly hidden from the end-user interface to enforce the use of centralized Explicit Measures.
 
@@ -87,12 +86,12 @@ VertiPaq Optimization: Single-direction 1:N relationships with integer surrogate
 
 Field Parameters: Integrated Date Granularity disconnected parameter table for dynamic temporal aggregation (Quarter/Month/Year).
 
-💻 DAX Showcase
+## 💻 DAX Showcase
 1. Robust Time-Intelligence & Year-Selection Fallback
 
 Calculates YoY Revenue change with an automated fallback mechanism (COALESCE + MAX Sales Year) ensuring text insights never return BLANK when no explicit calendar slicers are applied:
 
-```text
+```dax
 Revenue YoY Formatted = 
 VAR SelectedYear = SELECTEDVALUE('Dim_Calendar'[Year])
 VAR MaxSalesYear = YEAR(CALCULATE(MAX('Fact_Sales'[Order Date]), ALLSELECTED('Fact_Sales')))
@@ -121,7 +120,7 @@ IF(
 
 Automates chart highlighting by dynamically identifying the highest-performing category in the current filter context and applying an accent HEX color (#008080) vs neutral base (#314F62):
 
-```text
+```dax
 Category Color Accent = 
 VAR MaxRevenueInContext = 
     CALCULATE(
@@ -144,7 +143,7 @@ RETURN
 
 Dynamically calculates the upper Y-axis boundary across switching date granularities (Month/Quarter/Year), adding a 15% safety buffer (* 1.15) to prevent data label truncation on line charts:
 
-```text
+```dax
 Dynamic Y Max = 
 VAR SelectedOrder = MAX('Date Granularity'[Date Granularity Order])
 VAR ActiveMax = 
@@ -158,7 +157,7 @@ VAR ActiveMax =
 RETURN ActiveMax * 1.15
 ```
 
-📁 Repository Structure
+## 📁 Repository Structure
 
 ```text
 ├── pbix/
@@ -166,11 +165,15 @@ RETURN ActiveMax * 1.15
 ├── screenshots/
 │   ├── 01_executive_summary.png
 │   ├── 02_product_delivery.png
-│   └── 03_customer_insights.png
+│   ├── 03_customer_insights.png
+│   ├── 04_executive_summary_filtered_2024.png
+│   ├── 05_customer_insights_filtered_ViewByMonth.png
+│   ├── 06_data_model.png
+│   └── GifProjekt_1.gif                            # Interactive Demo
 └── README.md                                       # Repository Documentation
 ```
 
-🛠️ Technical Stack
+## 🛠️ Technical Stack
 
 BI Platform: Power BI Desktop
 
