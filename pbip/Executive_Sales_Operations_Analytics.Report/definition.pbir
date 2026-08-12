@@ -1,8 +1,0 @@
-{
-  "version": "4.0",
-  "datasetReference": {
-    "byPath": {
-      "path": "../Executive_Sales_Operations_Analytics.SemanticModel"
-    }
-  }
-}

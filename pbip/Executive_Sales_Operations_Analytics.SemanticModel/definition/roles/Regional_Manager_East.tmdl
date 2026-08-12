@@ -1,7 +1,0 @@
-role Regional_Manager_East
-	modelPermission: read
-
-	tablePermission Dim_Customer = [Region] == "East"
-
-	annotation PBI_Id = 4b673d7b76e54e25831153ef211dbb04
-
