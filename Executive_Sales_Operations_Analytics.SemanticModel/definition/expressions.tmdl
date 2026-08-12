@@ -1,0 +1,7 @@
+expression DatasetFilePath = "C:\Users\semen\Desktop\PRACA\PROJECT FOR CV\1 projekt\ecommerce_sales_analytics_5000.csv" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 8eed5050-1b96-4d4d-b045-703d17f7b3ec
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

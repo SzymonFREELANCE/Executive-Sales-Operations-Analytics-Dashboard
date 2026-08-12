@@ -5257,6 +5257,27 @@ cultureInfo pl-PL
 			          }
 			        }
 			      ]
+			    },
+			    "dim_calendar.year_quarter": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Dim_Calendar",
+			          "ConceptualProperty": "Year Quarter"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Quarter": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
 			    }
 			  },
 			  "Relationships": {

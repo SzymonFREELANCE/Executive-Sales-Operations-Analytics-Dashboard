@@ -221,7 +221,7 @@ table Fact_Sales
 		mode: import
 		source =
 				let
-				  Źródło = Csv.Document(File.Contents("C:\Users\semen\Desktop\PRACA\archive\ecommerce_sales_analytics_5000.csv"), [Delimiter = ",", Columns = 12, QuoteStyle = QuoteStyle.None]),
+				  Źródło = Csv.Document(File.Contents(DatasetFilePath),[Delimiter=",", Columns=12, QuoteStyle=QuoteStyle.None]),
 				  #"Nagłówki o podwyższonym poziomie" = Table.PromoteHeaders(Źródło, [PromoteAllScalars = true]),
 				    #"Zmieniono typ z ustawieniami regionalnymi" = Table.TransformColumnTypes(#"Nagłówki o podwyższonym poziomie", {{"unit_price", type number}, {"discount", type number}, {"revenue", type number}}, "en-US"),
 				    #"Zmieniono typ z ustawieniami regionalnymi1" = Table.TransformColumnTypes(#"Zmieniono typ z ustawieniami regionalnymi", {{"order_date", type date}}, "en-US"),
