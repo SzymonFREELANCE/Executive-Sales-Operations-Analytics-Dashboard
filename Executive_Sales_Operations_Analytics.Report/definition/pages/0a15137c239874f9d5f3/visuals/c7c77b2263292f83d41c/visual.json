@@ -26,10 +26,9 @@
                   "Property": "Product Category"
                 }
               },
-              "queryRef": "Dim_Category.product_category",
+              "queryRef": "Dim_Category.product_category1",
               "nativeQueryRef": "Product Category",
-              "active": true,
-              "displayName": "Product Category"
+              "active": true
             }
           ]
         },

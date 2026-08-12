@@ -1,116 +1,13 @@
 table Dim_Category
 	lineageTag: 3298a652-ce5f-4bfb-a5c3-cd19e79e2ca9
 
-	column product_category
+	column 'Product Category'
 		dataType: string
 		lineageTag: 60eac302-45b4-447e-996e-f97bb57b1b42
 		summarizeBy: none
-		sourceColumn: product_category
+		sourceColumn: Product Category
 
 		annotation SummarizationSetBy = Automatic
-
-	column order_id
-		dataType: int64
-		formatString: 0
-		lineageTag: 62fa48e7-b3e5-4456-b3b7-fbca21d89cdf
-		summarizeBy: none
-		sourceColumn: order_id
-
-		annotation SummarizationSetBy = Automatic
-
-	column order_date
-		dataType: dateTime
-		formatString: Long Date
-		lineageTag: 6f30b745-c2d2-40f8-b3a3-db1eb27ab4ad
-		summarizeBy: none
-		sourceColumn: order_date
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
-	column customer_id
-		dataType: int64
-		formatString: 0
-		lineageTag: ce07f988-749a-4296-8ae3-e753de17d2ae
-		summarizeBy: none
-		sourceColumn: customer_id
-
-		annotation SummarizationSetBy = Automatic
-
-	column region
-		dataType: string
-		lineageTag: a2a56014-29cf-4a38-b76f-88028de54a48
-		summarizeBy: none
-		sourceColumn: region
-
-		annotation SummarizationSetBy = Automatic
-
-	column quantity
-		dataType: int64
-		formatString: 0
-		lineageTag: 6c71341d-fc4f-4ea5-b502-eb02711b4ee0
-		summarizeBy: none
-		sourceColumn: quantity
-
-		annotation SummarizationSetBy = Automatic
-
-	column unit_price
-		dataType: double
-		lineageTag: f5b72e3a-4861-4abe-9140-07862a3dfec8
-		summarizeBy: none
-		sourceColumn: unit_price
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column discount
-		dataType: double
-		lineageTag: 245094d8-565e-454e-9828-9d8290f01c8b
-		summarizeBy: none
-		sourceColumn: discount
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column payment_method
-		dataType: string
-		lineageTag: 5e080334-98f8-4f18-8fc1-9539cd5f9d21
-		summarizeBy: none
-		sourceColumn: payment_method
-
-		annotation SummarizationSetBy = Automatic
-
-	column delivery_days
-		dataType: int64
-		formatString: 0
-		lineageTag: b79561ca-06c2-41e1-92f0-1c20573ed5af
-		summarizeBy: none
-		sourceColumn: delivery_days
-
-		annotation SummarizationSetBy = Automatic
-
-	column customer_rating
-		dataType: double
-		lineageTag: 971883cd-d3d0-4efe-897a-d4c502411084
-		summarizeBy: none
-		sourceColumn: customer_rating
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column revenue
-		dataType: double
-		lineageTag: b8c937aa-9528-457f-85b0-c0e39cff1092
-		summarizeBy: none
-		sourceColumn: revenue
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	partition Dim_Category = m
 		mode: import
@@ -131,9 +28,12 @@ table Dim_Category
 				    #"Renamed Columns" = Csv.Document(File.Contents(DatasetFilePath)),
 				    #"Promoted Headers" = Table.PromoteHeaders(#"Renamed Columns", [PromoteAllScalars=true]),
 				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"order_id", Int64.Type}, {"order_date", type date}, {"customer_id", Int64.Type}, {"product_category", type text}, {"region", type text}, {"quantity", Int64.Type}, {"unit_price", type number}, {"discount", type number}, {"payment_method", type text}, {"delivery_days", Int64.Type}, {"customer_rating", type number}, {"revenue", type number}}),
-				    #"Removed Duplicates1" = Table.Distinct(#"Changed Type1", {"product_category"})
+				    #"Removed Duplicates1" = Table.Distinct(#"Changed Type1", {"product_category"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Removed Duplicates1",{"product_category"}),
+				    #"Removed Duplicates2" = Table.Distinct(#"Removed Other Columns1"),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Duplicates2",{{"product_category", "Product Category"}})
 				in
-				    #"Removed Duplicates1"
+				    #"Renamed Columns1"
 
 	annotation PBI_NavigationStepName = Nawigacja
 

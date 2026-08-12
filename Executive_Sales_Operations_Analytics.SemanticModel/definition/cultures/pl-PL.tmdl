@@ -3969,7 +3969,7 @@ cultureInfo pl-PL
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "Dim_Category",
-			          "ConceptualProperty": "product_category"
+			          "ConceptualProperty": "Product Category"
 			        }
 			      },
 			      "State": "Generated",
