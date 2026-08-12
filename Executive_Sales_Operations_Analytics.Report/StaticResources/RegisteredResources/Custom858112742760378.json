@@ -1,0 +1,22 @@
+{
+  "name": "Custom",
+  "textClasses": {
+    "label": {
+      "fontFace": "wf_standard-font, helvetica, arial, sans-serif",
+      "fontSize": 12
+    },
+    "title": {
+      "fontSize": 16
+    }
+  },
+  "dataColors": [
+    "#005F73",
+    "#12239E",
+    "#E66C37",
+    "#6B007B",
+    "#E044A7",
+    "#744EC2",
+    "#D9B300",
+    "#D64550"
+  ]
+}
