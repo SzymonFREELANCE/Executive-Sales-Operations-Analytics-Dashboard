@@ -4,6 +4,10 @@
 ![DAX](https://img.shields.io/badge/DAX-00758F?style=for-the-badge&logo=data&logoColor=white)
 ![Data Modeling](https://img.shields.io/badge/Data_Modeling-Star_Schema-blue?style=for-the-badge)
 
+![Dashboard Interactive Demo](screenshots/GifProjekt_1.gif)
+
+---
+
 An end-to-end, production-ready Power BI analytics solution designed for executive leadership, regional sales managers, and operations teams. This project transforms transactional retail data into dynamic, actionable insights with a strong focus on data storytelling, strict data hygiene, and VertiPaq engine optimization.
 
 ---
@@ -37,6 +41,17 @@ The report consists of three strategic pages built with a strict visual hierarch
 
 ![Customer Insights](screenshots/03_customer_insights.png)
 
+<details>
+<summary>🔍 Click to view Dynamic Filtering & Granularity Switching Examples</summary>
+
+### Dynamic Smart Narrative Recalculation (Filtered by 2024)
+![Filtered Executive Summary](screenshots/04_executive_summary_filtered_2024.png)
+
+### Field Parameters Granularity Switch (View by Month)
+![Monthly Customer Behavior](screenshots/05_customer_insights_filtered_ViewByMonth.png)
+
+</details>
+
 ---
 
 ## 🏗️ Data Architecture & Hygiene
@@ -59,6 +74,8 @@ The data model follows a clean, single-direction **Star Schema** optimized for m
                   |   Dim_Customer    |
                   +-------------------+
 ```
+
+![Power BI Data Model](screenshots/06_data_model.png)
 
 Best Practices & Model Governance
 
