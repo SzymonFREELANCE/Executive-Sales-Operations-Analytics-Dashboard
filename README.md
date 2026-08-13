@@ -59,20 +59,20 @@ The report consists of three strategic pages built with a strict visual hierarch
 The data model follows a clean, single-direction **Star Schema** optimized for memory footprint and DAX measure performance:
 
 ```text
-                  +-------------------+
-                  |   Dim_Calendar    |
-                  +---------+---------+
-                            |
-                            | 1:N
-                            v
+                          +-------------------+
+                          |   Dim_Calendar    |
+                          +---------+---------+
+                                    |
+                                    | 1:N
+                                    v
 +-----------------+  1:N  +-------------------+  1:N  +------------------+
 |  Dim_Category   |------>|    Fact_Sales     |<------|   Dim_Payment    |
 +-----------------+       +---------+---------+       +------------------+
-                            ^
-                            | 1:N
-                  +---------+---------+
-                  |   Dim_Customer    |
-                  +-------------------+
+                                    ^
+                                    | 1:N
+                          +---------+---------+
+                          |   Dim_Customer    |
+                          +-------------------+
 ```
 
 ![Power BI Data Model](screenshots/06_data_model.png)
