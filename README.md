@@ -89,7 +89,7 @@ The data model follows a clean, single-direction **Star Schema** optimized for m
 * **Row-Level Security (RLS):** Implemented territorial data isolation (`Regional_Manager_North`, `South`, `East`, `West`) via DAX filters on `Dim_Customer[Region]` to restrict data access based on user roles.
 * **Zero Implicit Measures:** All raw numeric fact fields in Fact_Sales are explicitly hidden from the end-user interface to enforce the use of centralized Explicit Measures.
 * **Organized Repository:** All DAX code resides in an isolated _Measures table, structured with numbered display folders (01_KPIs, 02_YoY Logic, 03_Formatting & Colors, 04_Dynamic Axes).
-* **VertiPaq Optimization:** Single-direction 1:N relationships with integer surrogate keys for efficient dictionary encoding and high compression ratios.
+* **VertiPaq Optimization:** Single-direction 1:N relationships. Utilizes integer surrogate keys (Customer ID, Order ID) alongside low-cardinality natural business keys (Payment Method, Product Category) optimized via VertiPaq dictionary encoding for compact memory footprint.
 * **Field Parameters:** Integrated Date Granularity disconnected parameter table for dynamic temporal aggregation (Quarter/Month/Year).
 
 ## 💻 DAX Showcase
