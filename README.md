@@ -178,11 +178,12 @@ RETURN MaxUnits * 1.15
 ## 📁 Repository Structure
 
 ```text
-├── V2-Executive_Sales_Operations_Analytics.Report/         # Visual & Layout Configuration
-├── V2-Executive_Sales_Operations_Analytics.SemanticModel/  # Data Model, DAX & RLS Schema
-├── V2-Executive_Sales_Operations_Analytics.pbip           # Power BI Project Entry File
+├── Executive_Sales_Operations_Analytics.Report/         # Visual & Layout Configuration
+├── Executive_Sales_Operations_Analytics.SemanticModel/  # Data Model, DAX & RLS Schema
+├── Executive_Sales_Operations_Analytics.pbip            # Power BI Project Entry File
+├── Executive_Sales_Operations_Analytics.pdf             # Executive Dashboard PDF Export
 ├── pbix/
-│   └── Executive_Sales_Operations_Analytics.pbix          # Production Power BI Single File
+│   └── Executive_Sales_Operations_Analytics.pbix        # Production Power BI Single File
 ├── screenshots/
 │   ├── 01_executive_summary.png
 │   ├── 02_product_delivery.png
@@ -190,8 +191,8 @@ RETURN MaxUnits * 1.15
 │   ├── 04_executive_summary_filtered_2024.png
 │   ├── 05_customer_insights_filtered_ViewByMonth.png
 │   ├── 06_data_model.png
-│   └── GifProjekt_1.gif                                    # Interactive Demo
-└── README.md                                              # Project Documentation
+│   └── GifProjekt_1.gif                                  # Interactive Demo
+└── README.md                                             # Project Documentation
 ```
 
 ## 🛠️ Technical Stack
