@@ -100,6 +100,208 @@
     "sections": {
       "0a15137c239874f9d5f3": {
         "visualContainers": {
+          "22192d7d68a96b97a642": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "7f301a5b0d3c8b42d276",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Fact_Sales"
+                        }
+                      },
+                      "Property": "Order Date"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "209522f3ec4f9a244ec5",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Fact_Sales"
+                        }
+                      },
+                      "Property": "Order Date"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "021129987a0d3f5ff4c8",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Fact_Sales"
+                        }
+                      },
+                      "Property": "Order Date"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "030a574008182e51917d",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Fact_Sales"
+                        }
+                      },
+                      "Property": "Order Date"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "fb32b9b3f53a5d6c0183",
+                  "type": "Advanced",
+                  "expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "Fact_Sales"
+                            }
+                          },
+                          "Property": "Revenue"
+                        }
+                      },
+                      "Function": 0
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "a5a637fd9055aaae2818",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Calendar"
+                        }
+                      },
+                      "Property": "Year"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2dde44cc50d779eeed5b",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Calendar"
+                        }
+                      },
+                      "Property": "Quarter"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "32b2908e6620c71d007b",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Calendar"
+                        }
+                      },
+                      "Property": "Month Name"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "3fef794872a690a07bac",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Measures"
+                        }
+                      },
+                      "Property": "Total Revenue"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "lineChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Calendar"
+                        }
+                      },
+                      "Property": "Year"
+                    }
+                  }
+                },
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Calendar"
+                        }
+                      },
+                      "Property": "Quarter"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Calendar"
+                        }
+                      },
+                      "Property": "Year"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Calendar"
+                        }
+                      },
+                      "Property": "Quarter"
+                    }
+                  }
+                ]
+              }
+            }
+          },
           "576b1d2153a107add999": {
             "filters": {
               "byExpr": [
@@ -209,22 +411,7 @@
                   "howCreated": 1
                 },
                 {
-                  "name": "0b50ad8694b8340b9752",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_Measures"
-                        }
-                      },
-                      "Property": "Revenue YoY %"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "ddac2f1b35e91066e5d9",
+                  "name": "fdfc8c272d776630167d",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -239,7 +426,22 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "a5bef0097b08de332343",
+                  "name": "5a618b07c24800ab013a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Measures"
+                        }
+                      },
+                      "Property": "Total Gross Profit"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "5bcea8141274b60b7da0",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -254,7 +456,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "57790fa395b98b78a36d",
+                  "name": "e1e91d67d38948a6058e",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -263,7 +465,7 @@
                           "Entity": "_Measures"
                         }
                       },
-                      "Property": "Total Gross Profit"
+                      "Property": "Revenue YoY %"
                     }
                   },
                   "howCreated": 0
@@ -290,91 +492,17 @@
               ]
             }
           },
-          "22192d7d68a96b97a642": {
+          "7605bf70452030bbc373": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "86028e6490530571d0b8": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "7f301a5b0d3c8b42d276",
-                  "type": "Advanced",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Fact_Sales"
-                        }
-                      },
-                      "Property": "Order Date"
-                    }
-                  },
-                  "howCreated": 1
-                },
-                {
-                  "name": "209522f3ec4f9a244ec5",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Fact_Sales"
-                        }
-                      },
-                      "Property": "Order Date"
-                    }
-                  },
-                  "howCreated": 1
-                },
-                {
-                  "name": "021129987a0d3f5ff4c8",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Fact_Sales"
-                        }
-                      },
-                      "Property": "Order Date"
-                    }
-                  },
-                  "howCreated": 1
-                },
-                {
-                  "name": "030a574008182e51917d",
-                  "type": "Advanced",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Fact_Sales"
-                        }
-                      },
-                      "Property": "Order Date"
-                    }
-                  },
-                  "howCreated": 1
-                },
-                {
-                  "name": "fb32b9b3f53a5d6c0183",
-                  "type": "Advanced",
-                  "expression": {
-                    "Aggregation": {
-                      "Expression": {
-                        "Column": {
-                          "Expression": {
-                            "SourceRef": {
-                              "Entity": "Fact_Sales"
-                            }
-                          },
-                          "Property": "Revenue"
-                        }
-                      },
-                      "Function": 0
-                    }
-                  },
-                  "howCreated": 1
-                },
-                {
-                  "name": "c76be6e25763dc27e204",
+                  "name": "07028e4129d3040b50da",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -383,52 +511,7 @@
                           "Entity": "_Measures"
                         }
                       },
-                      "Property": "Total Revenue"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "5e66fd491de39e027bab",
-                  "type": "Advanced",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Calendar"
-                        }
-                      },
-                      "Property": "Year"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "2d759328a558ac0a734d",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Calendar"
-                        }
-                      },
-                      "Property": "Quarter"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "95c811f279ade652e859",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Calendar"
-                        }
-                      },
-                      "Property": "Month Name"
+                      "Property": "Profit Margin YoY Formatted"
                     }
                   },
                   "howCreated": 0
@@ -436,150 +519,57 @@
               ]
             },
             "singleVisual": {
-              "visualType": "lineChart",
-              "objects": {},
-              "orderBy": [
-                {
-                  "Direction": 1,
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Calendar"
-                        }
-                      },
-                      "Property": "Year"
-                    }
-                  }
-                },
-                {
-                  "Direction": 1,
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Calendar"
-                        }
-                      },
-                      "Property": "Quarter"
-                    }
-                  }
-                }
-              ],
-              "activeProjections": {
-                "Category": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Calendar"
-                        }
-                      },
-                      "Property": "Year"
-                    }
-                  },
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Calendar"
-                        }
-                      },
-                      "Property": "Quarter"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "c7c77b2263292f83d41c": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "bb95da30301cd5c77d34",
-                  "type": "Advanced",
-                  "expression": {
-                    "Aggregation": {
-                      "Expression": {
-                        "Column": {
-                          "Expression": {
-                            "SourceRef": {
-                              "Entity": "Fact_Sales"
-                            }
-                          },
-                          "Property": "Revenue"
-                        }
-                      },
-                      "Function": 0
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "1d3b7ac87000c8a9306c",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Category"
-                        }
-                      },
-                      "Property": "Product Category"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "barChart",
-              "objects": {},
-              "orderBy": [
-                {
-                  "Direction": 2,
-                  "Expression": {
-                    "Aggregation": {
-                      "Expression": {
-                        "Column": {
-                          "Expression": {
-                            "SourceRef": {
-                              "Entity": "Fact_Sales"
-                            }
-                          },
-                          "Property": "Revenue"
-                        }
-                      },
-                      "Function": 0
-                    }
-                  }
-                }
-              ],
-              "activeProjections": {
-                "Category": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Dim_Category"
-                        }
-                      },
-                      "Property": "Product Category"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "fd67694c173759e9a006": {
-            "singleVisual": {
-              "visualType": "textbox",
+              "visualType": "cardVisual",
               "objects": {}
             }
           },
-          "a0c43cb01914377becbb": {
+          "897ea8404bea94a10561": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "86221d6be6d844205b49",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Measures"
+                        }
+                      },
+                      "Property": "Orders YoY Formatted"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
             "singleVisual": {
-              "visualType": "textbox",
+              "visualType": "cardVisual",
+              "objects": {}
+            }
+          },
+          "8ee7b9105b4190c5080d": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "c75d9b018a0baac051e5",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Measures"
+                        }
+                      },
+                      "Property": "Avg Discount YoY Formatted"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
               "objects": {}
             }
           },
@@ -589,34 +579,15 @@
               "objects": {}
             }
           },
-          "7605bf70452030bbc373": {
+          "a0c43cb01914377becbb": {
             "singleVisual": {
               "visualType": "textbox",
               "objects": {}
             }
           },
-          "fa3d412f03d04a8b09ad": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "7b145f9bc036c69ac950",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_Measures"
-                        }
-                      },
-                      "Property": "Revenue YoY Formatted"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
+          "b978ef3319463c903eac": {
             "singleVisual": {
-              "visualType": "cardVisual",
+              "visualType": "pageNavigator",
               "objects": {}
             }
           },
@@ -624,7 +595,7 @@
             "filters": {
               "byExpr": [
                 {
-                  "name": "4d7e68c9b89dcd2996b1",
+                  "name": "e7e5e3180e5970d474b2",
                   "type": "Advanced",
                   "filter": {
                     "Version": 2,
@@ -673,7 +644,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "52d7b1b30c9992638246",
+                  "name": "79a659547a2d40619700",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -773,7 +744,7 @@
                     }
                   ],
                   "root": {
-                    "identityValues": null,
+                    "identityValues": [],
                     "children": [
                       {
                         "identityValues": [
@@ -791,11 +762,140 @@
               ]
             }
           },
+          "c7c77b2263292f83d41c": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "b718454761e5cd29477c",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Category"
+                        }
+                      },
+                      "Property": "Product Category"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "fc4f34f17e003a2b44b0",
+                  "type": "Advanced",
+                  "expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "Fact_Sales"
+                            }
+                          },
+                          "Property": "Revenue"
+                        }
+                      },
+                      "Function": 0
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "barChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "Fact_Sales"
+                            }
+                          },
+                          "Property": "Revenue"
+                        }
+                      },
+                      "Function": 0
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Dim_Category"
+                        }
+                      },
+                      "Property": "Product Category"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "cb8bc2cb04d368315c16": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "20e8e6f13b01372c2ab7",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Measures"
+                        }
+                      },
+                      "Property": "Profit YoY Formatted"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {}
+            }
+          },
+          "e0bd485d0ae32ba927b6": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "fcd1d8c09d6da3ab0a18",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Measures"
+                        }
+                      },
+                      "Property": "AOV YoY Formatted"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {}
+            }
+          },
           "f0256af6285b161b131c": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "e07c812e1b751e9c8508",
+                  "name": "2bae4ad6dc9145266083",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -846,11 +946,11 @@
               }
             }
           },
-          "cb8bc2cb04d368315c16": {
+          "fa3d412f03d04a8b09ad": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "595214198c2827057056",
+                  "name": "8b1b9251cc60b6a708c9",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -859,7 +959,7 @@
                           "Entity": "_Measures"
                         }
                       },
-                      "Property": "Profit YoY Formatted"
+                      "Property": "Revenue YoY Formatted"
                     }
                   },
                   "howCreated": 0
@@ -871,34 +971,9 @@
               "objects": {}
             }
           },
-          "b978ef3319463c903eac": {
+          "fd67694c173759e9a006": {
             "singleVisual": {
-              "visualType": "pageNavigator",
-              "objects": {}
-            }
-          },
-          "897ea8404bea94a10561": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "60dbffc77828400be38a",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_Measures"
-                        }
-                      },
-                      "Property": "Orders YoY Formatted"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "cardVisual",
+              "visualType": "textbox",
               "objects": {}
             }
           },
@@ -906,7 +981,7 @@
             "filters": {
               "byExpr": [
                 {
-                  "name": "7e4d867c333919002175",
+                  "name": "9c25c2d0a707de1ae1ed",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -1045,81 +1120,6 @@
               "display": {
                 "mode": "hidden"
               }
-            }
-          },
-          "e0bd485d0ae32ba927b6": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "564e617d1306cd365e30",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_Measures"
-                        }
-                      },
-                      "Property": "AOV YoY Formatted"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "cardVisual",
-              "objects": {}
-            }
-          },
-          "86028e6490530571d0b8": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "14c3bc42e91336629a66",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_Measures"
-                        }
-                      },
-                      "Property": "Profit Margin YoY Formatted"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "cardVisual",
-              "objects": {}
-            }
-          },
-          "8ee7b9105b4190c5080d": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "05c4c1a285c3a77911c7",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_Measures"
-                        }
-                      },
-                      "Property": "Avg Discount YoY Formatted"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "cardVisual",
-              "objects": {}
             }
           }
         }
